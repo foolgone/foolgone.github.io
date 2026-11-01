@@ -52,7 +52,7 @@ export const site = {
 
 export const socials: Social[] = [
   { label: 'GitHub', href: 'https://github.com/foolgone', icon: 'github' },
-  { label: 'RSS', href: '/rss.xml', icon: 'rss' },
+  { label: 'RSS', href: '/feed/', icon: 'rss' },
   // TODO: 有邮箱、X、掘金等再加，格式同上
 ];
 

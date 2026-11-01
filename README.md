@@ -14,7 +14,7 @@
 - 标签 `/tags/`、标签详情页
 - 站内搜索 `/search/`（构建期生成索引，纯前端匹配，支持中文子串）
 - 暗色模式（跟随系统 + 手动切换，无闪白）
-- RSS `/rss.xml`、Sitemap、robots.txt
+- RSS `/rss.xml`（纯 XML）、订阅页 `/feed/`、Sitemap、robots.txt
 - 响应式布局、打印样式、404 页面
 
 ## 本地开发

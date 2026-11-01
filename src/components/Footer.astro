@@ -12,7 +12,7 @@ const start = site.since && site.since < year ? `${site.since}–${year}` : `${y
       <a href="/blog/">文章</a>
       <a href="/tags/">标签</a>
       <a href="/search/">搜索</a>
-      <a href="/rss.xml">RSS</a>
+      <a href="/feed/">订阅</a>
       {socials
         .filter((item) => item.icon === 'mail' || item.icon === 'github')
         .map((item) => (

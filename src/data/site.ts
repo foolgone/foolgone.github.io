@@ -32,8 +32,7 @@ export interface Social {
 }
 
 export const site = {
-  // TODO: 你的名字
-  name: '你的名字',
+  name: '江晚',
   // TODO: 你的职业 / 身份
   role: '前端工程师',
   // TODO: 一句话定位，出现在首页大标题下方

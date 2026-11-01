@@ -1,0 +1,189 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { getTags } from '../lib/posts';
+
+const tags = await getTags();
+---
+
+<BaseLayout title="搜索" description="在全部文章中搜索标题、标签和正文。" noindex>
+  <div class="container">
+    <header class="page-head">
+      <p class="eyebrow">Search</p>
+      <h1>搜索</h1>
+      <p>输入关键词，匹配文章的标题、标签、摘要与正文。</p>
+    </header>
+
+    <div class="search-box">
+      <span class="search-box__icon"><Icon name="search" size={17} /></span>
+      <label class="sr-only" for="search-input" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">搜索文章</label>
+      <input
+        id="search-input"
+        type="search"
+        placeholder="搜索文章，例如：设计令牌"
+        autocomplete="off"
+        autofocus
+      />
+    </div>
+
+    <p class="search-status" id="search-status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results"></ul>
+
+    <div class="search-hint">
+      <span>试试：</span>
+      {tags.slice(0, 5).map(({ tag }) => (
+        <a href={`/search/?q=${encodeURIComponent(tag)}`} class="tag">{tag}</a>
+      ))}
+      <span style="margin-left: auto;">按 <kbd>/</kbd> 聚焦搜索框，<kbd>Esc</kbd> 清空</span>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  interface Doc {
+    title: string;
+    description: string;
+    tags: string[];
+    date: string;
+    url: string;
+    text: string;
+  }
+
+  const input = document.getElementById('search-input') as HTMLInputElement | null;
+  const status = document.getElementById('search-status');
+  const list = document.getElementById('search-results');
+
+  let docs: Doc[] | null = null;
+  let pending: Promise<void> | null = null;
+
+  const escapeHtml = (value: string) =>
+    value
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+
+  const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  const highlight = (text: string, terms: string[]) => {
+    if (terms.length === 0) return escapeHtml(text);
+    const pattern = new RegExp(`(${terms.map(escapeRegExp).join('|')})`, 'gi');
+    return text
+      .split(pattern)
+      .map((part, index) => (index % 2 === 1 ? `<mark>${escapeHtml(part)}</mark>` : escapeHtml(part)))
+      .join('');
+  };
+
+  const loadIndex = async () => {
+    if (docs) return;
+    if (pending) return pending;
+    pending = fetch('/search-index.json')
+      .then((response) => (response.ok ? response.json() : []))
+      .then((data: Doc[]) => {
+        docs = data;
+      })
+      .catch(() => {
+        docs = [];
+      })
+      .finally(() => {
+        pending = null;
+      });
+    return pending;
+  };
+
+  const score = (doc: Doc, terms: string[]) => {
+    let total = 0;
+    const title = doc.title.toLowerCase();
+    const description = doc.description.toLowerCase();
+    const tags = doc.tags.join(' ').toLowerCase();
+    const text = doc.text.toLowerCase();
+
+    for (const term of terms) {
+      if (title.includes(term)) total += 12;
+      if (tags.includes(term)) total += 7;
+      if (description.includes(term)) total += 4;
+      if (text.includes(term)) total += 2;
+    }
+    return total;
+  };
+
+  const render = (query: string) => {
+    const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    if (!status || !list) return;
+
+    if (terms.length === 0) {
+      status.textContent = docs && docs.length > 0 ? `共 ${docs.length} 篇文章可搜索。` : '';
+      list.innerHTML = '';
+      return;
+    }
+
+    const results = (docs ?? [])
+      .map((doc) => ({ doc, score: score(doc, terms) }))
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 20);
+
+    status.textContent =
+      results.length > 0 ? `找到 ${results.length} 篇相关文章` : '没有匹配的文章，换个关键词试试。';
+
+    list.innerHTML = results
+      .map(({ doc }) => {
+        const snippet = doc.description || doc.text.slice(0, 120);
+        return `<li>
+          <a href="${doc.url}">
+            <h2>${highlight(doc.title, terms)}</h2>
+            <p>${highlight(snippet, terms)}</p>
+            <p style="margin-top:0.5rem;font-family:var(--font-mono);font-size:0.7rem;color:var(--text-faint);">${doc.date} · ${doc.tags.map((tag) => escapeHtml(tag)).join(' / ')}</p>
+          </a>
+        </li>`;
+      })
+      .join('');
+  };
+
+  const run = async (query: string) => {
+    await loadIndex();
+    render(query);
+  };
+
+  const params = new URLSearchParams(location.search);
+  const initial = params.get('q') ?? '';
+  if (input) {
+    input.value = initial;
+    if (initial) run(initial);
+    else loadIndex().then(() => render(''));
+
+    let timer: number | undefined;
+    input.addEventListener('input', () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        const query = input.value;
+        const url = new URL(location.href);
+        if (query.trim()) url.searchParams.set('q', query);
+        else url.searchParams.delete('q');
+        history.replaceState(null, '', url);
+        run(query);
+      }, 120);
+    });
+
+    input.addEventListener('focus', () => loadIndex());
+  }
+
+  document.addEventListener('keydown', (event) => {
+    const target = event.target as HTMLElement | null;
+    const typing = target && /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName);
+
+    if (event.key === '/' && !typing) {
+      event.preventDefault();
+      input?.focus();
+      input?.select();
+    }
+
+    if (event.key === 'Escape' && document.activeElement === input) {
+      if (input) input.value = '';
+      const url = new URL(location.href);
+      url.searchParams.delete('q');
+      history.replaceState(null, '', url);
+      render('');
+    }
+  });
+</script>

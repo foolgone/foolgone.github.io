@@ -1,0 +1,35 @@
+---
+import type { Post } from '../lib/posts';
+import { formatDate } from '../lib/posts';
+import Icon from './Icon.astro';
+
+interface Props {
+  post: Post;
+  showTags?: boolean;
+}
+
+const { post, showTags = true } = Astro.props;
+const href = `/blog/${post.id}/`;
+---
+
+<li class="post-row">
+  <time class="post-row__date" datetime={post.data.pubDate.toISOString()}>
+    {formatDate(post.data.pubDate)}
+  </time>
+
+  <div class="post-row__body">
+    <a class="post-row__title" href={href}>{post.data.title}</a>
+    <p class="post-row__desc">{post.data.description}</p>
+    {showTags && post.data.tags.length > 0 && (
+      <ul class="tag-list post-row__tags">
+        {post.data.tags.map((tag) => (
+          <li>
+            <a class="tag" href={`/tags/${encodeURIComponent(tag)}/`}>{tag}</a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+
+  <Icon name="arrowRight" size={16} class="post-row__arrow" />
+</li>

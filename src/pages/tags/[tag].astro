@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostRow from '../../components/PostRow.astro';
+import { getPosts, getTags, type Post } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const [tags, posts] = await Promise.all([getTags(), getPosts()]);
+  return tags.map(({ tag, count }) => ({
+    params: { tag },
+    props: {
+      tag,
+      count,
+      posts: posts.filter((post) => post.data.tags.includes(tag)),
+    },
+  }));
+}
+
+interface Props {
+  tag: string;
+  count: number;
+  posts: Post[];
+}
+
+const { tag, count, posts } = Astro.props;
+---
+
+<BaseLayout title={`标签：${tag}`} description={`标签「${tag}」下的全部文章。`}>
+  <div class="container">
+    <header class="page-head">
+      <p class="eyebrow">Tag</p>
+      <h1>{tag}</h1>
+      <p>共 {count} 篇。返回 <a href="/tags/" style="color: var(--accent);">全部标签</a>。</p>
+    </header>
+
+    <ul class="post-list">
+      {posts.map((post) => (
+        <PostRow post={post} showTags={false} />
+      ))}
+    </ul>
+  </div>
+</BaseLayout>

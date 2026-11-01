@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { site, skills, socials, timeline } from '../data/site';
+---
+
+<BaseLayout title="关于" description={`关于 ${site.name}：${site.tagline}`}>
+  <div class="container">
+    <header class="page-head">
+      <p class="eyebrow">About</p>
+      <h1>关于我</h1>
+      <p>{site.tagline}</p>
+    </header>
+
+    <div class="about-grid">
+      <div class="stack">
+        <div class="prose">
+          <p>{site.intro}</p>
+          <p>
+            我相信界面的一致性来自规则而不是记忆，代码的可维护性来自边界而不是技巧。日常最花时间的，往往不是写新功能，而是判断哪些东西不该加进来。
+          </p>
+          <p>
+            这个站点用 Astro 构建，内容是一个个 Markdown 文件，部署在 Vercel 上。没有后台，没有数据库，也没有需要维护的服务端。
+          </p>
+        </div>
+
+        <section>
+          <div class="section-head">
+            <h2>经历</h2>
+            <span class="section-note">Timeline</span>
+          </div>
+          <ol class="timeline">
+            {timeline.map((item) => (
+              <li>
+                <time>{item.year}</time>
+                <strong>{item.title}</strong>
+                <p>{item.detail}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+      </div>
+
+      <aside class="stack">
+        <section>
+          <div class="section-head">
+            <h2>技能</h2>
+          </div>
+          <div class="skill-grid">
+            {skills.map((group) => (
+              <div class="skill-card">
+                <h3>{group.title}</h3>
+                <ul>
+                  {group.items.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <div class="section-head">
+            <h2>联系</h2>
+            {site.location && <span class="section-note">{site.location}</span>}
+          </div>
+          <div class="social-row">
+            {socials.map((item) => (
+              <a
+                class="social-link"
+                href={item.href}
+                target={item.href.startsWith('http') ? '_blank' : undefined}
+                rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              >
+                <Icon name={item.icon} size={13} />
+                {item.label}
+              </a>
+            ))}
+          </div>
+          <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
+            邮件是最快能找到我的方式：
+            <a href={`mailto:${site.email}`} style="color: var(--accent);">{site.email}</a>
+          </p>
+        </section>
+      </aside>
+    </div>
+  </div>
+</BaseLayout>

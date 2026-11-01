@@ -1,0 +1,105 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { formatDate, formatDateLong, getPosts, readingTime } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, index) => ({
+    params: { slug: post.id },
+    props: {
+      post,
+      newer: posts[index - 1] ?? null,
+      older: posts[index + 1] ?? null,
+    },
+  }));
+}
+
+const { post, newer, older } = Astro.props;
+const { Content, headings } = await render(post);
+const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+const minutes = readingTime(post.body);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description} type="article">
+  <div class="container">
+    <article class="post">
+      <div>
+        <header class="post__header">
+          <div class="post__meta">
+            <time datetime={post.data.pubDate.toISOString()}>
+              {formatDateLong(post.data.pubDate)}
+            </time>
+            <span class="sep" aria-hidden="true"></span>
+            <span>{minutes} 分钟阅读</span>
+            {post.data.updatedDate && (
+              <>
+                <span class="sep" aria-hidden="true"></span>
+                <span>更新于 {formatDate(post.data.updatedDate)}</span>
+              </>
+            )}
+          </div>
+
+          <h1>{post.data.title}</h1>
+          <p class="post__desc">{post.data.description}</p>
+
+          {post.data.tags.length > 0 && (
+            <ul class="tag-list post__tags">
+              {post.data.tags.map((tag) => (
+                <li>
+                  <a class="tag" href={`/tags/${encodeURIComponent(tag)}/`}>{tag}</a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </header>
+
+        <div class="prose">
+          <Content />
+        </div>
+
+        <footer class="post__footer">
+          <nav class="post-nav" aria-label="文章导航">
+            {newer ? (
+              <a href={`/blog/${newer.id}/`}>
+                <span>← 上一篇</span>
+                <strong>{newer.data.title}</strong>
+              </a>
+            ) : (
+              <span></span>
+            )}
+            {older ? (
+              <a href={`/blog/${older.id}/`}>
+                <span>下一篇 →</span>
+                <strong>{older.data.title}</strong>
+              </a>
+            ) : (
+              <span></span>
+            )}
+          </nav>
+
+          <p style="margin-top: 1.5rem; font-size: 0.82rem; color: var(--text-faint);">
+            <a href="/blog/" style="display: inline-flex; align-items: center; gap: 0.35rem;">
+              <Icon name="arrowLeft" size={13} />
+              返回文章列表
+            </a>
+          </p>
+        </footer>
+      </div>
+
+      {toc.length > 1 && (
+        <aside class="toc">
+          <h2>本文目录</h2>
+          <ul>
+            {toc.map((heading) => (
+              <li class={`depth-${heading.depth}`}>
+                <a href={`#${heading.slug}`}>{heading.text}</a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )}
+    </article>
+  </div>
+</BaseLayout>

@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/site';
+---
+
+<BaseLayout title="作品" description="我做过的项目：设计系统、协作工具、数据可视化。">
+  <div class="container">
+    <header class="page-head">
+      <p class="eyebrow">Selected Work</p>
+      <h1>作品</h1>
+      <p>
+        这里放的是能说明「我怎么做决定」的项目，而不是全部项目。每个都标注了我在其中承担的角色和技术栈。
+      </p>
+    </header>
+
+    <div class="project-grid">
+      {projects.map((project, index) => (
+        <ProjectCard project={project} index={String(index + 1).padStart(2, '0')} />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,25 @@
+---
+import { site, socials } from '../data/site';
+
+const year = new Date().getFullYear();
+const start = site.since && site.since < year ? `${site.since}–${year}` : `${year}`;
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <p>© {start} {site.name} · 用 Astro 构建，托管于 Vercel</p>
+    <div class="site-footer__links">
+      <a href="/blog/">文章</a>
+      <a href="/tags/">标签</a>
+      <a href="/search/">搜索</a>
+      <a href="/rss.xml">RSS</a>
+      {socials
+        .filter((item) => item.icon === 'mail' || item.icon === 'github')
+        .map((item) => (
+          <a href={item.href} rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+            {item.label}
+          </a>
+        ))}
+    </div>
+  </div>
+</footer>

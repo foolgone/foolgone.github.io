@@ -1,0 +1,57 @@
+---
+import type { Project } from '../data/site';
+import Icon from './Icon.astro';
+
+interface Props {
+  project: Project;
+  index?: string;
+}
+
+const { project, index } = Astro.props;
+const isExternal = project.href?.startsWith('http');
+---
+
+<article class="project-card">
+  <div class="project-card__top">
+    <span class="project-card__index">{index ?? project.year}</span>
+    <span class="project-card__year">{project.year}</span>
+  </div>
+
+  <h3>
+    {project.href ? (
+      <a
+        href={project.href}
+        target={isExternal ? '_blank' : undefined}
+        rel={isExternal ? 'noopener noreferrer' : undefined}
+      >
+        {project.title}
+        <Icon name="arrowUpRight" size={14} />
+      </a>
+    ) : (
+      project.title
+    )}
+  </h3>
+
+  <p>{project.summary}</p>
+
+  <ul class="tag-list">
+    {project.stack.map((item) => (
+      <li class="tag">{item}</li>
+    ))}
+  </ul>
+
+  <div class="project-card__foot">
+    <span class="project-card__role">{project.role}</span>
+    {project.repo && (
+      <a
+        class="project-card__link"
+        href={project.repo}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        源码
+        <Icon name="arrowUpRight" size={13} />
+      </a>
+    )}
+  </div>
+</article>

@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import PostRow from '../components/PostRow.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects, site, socials } from '../data/site';
+import { getPosts } from '../lib/posts';
+
+const allPosts = await getPosts();
+const posts = allPosts.slice(0, 4);
+const featured = projects.filter((project) => project.featured).slice(0, 3);
+---
+
+<BaseLayout>
+  <div class="container">
+    <section class="hero">
+      <div class="hero__main">
+        <p class="eyebrow">Portfolio &amp; Blog</p>
+        <h1>
+          <span class="hero__greet">你好，我是</span>
+          {site.name}<span class="hero__dot">.</span>
+        </h1>
+        <p class="hero__lead">{site.tagline}</p>
+        <p class="hero__intro">{site.intro}</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="/works/">
+            看看作品
+            <Icon name="arrowRight" size={15} />
+          </a>
+          <a class="btn" href="/blog/">读读文章</a>
+        </div>
+      </div>
+
+      <aside class="hero__aside">
+        {site.availability && (
+          <p class="status">
+            <span class="status__dot" aria-hidden="true"></span>
+            {site.availability}
+          </p>
+        )}
+        <dl class="meta-list">
+          <div>
+            <dt>角色</dt>
+            <dd>{site.role}</dd>
+          </div>
+          {site.location && (
+            <div>
+              <dt>位置</dt>
+              <dd>{site.location}</dd>
+            </div>
+          )}
+          <div>
+            <dt>文章</dt>
+            <dd>{allPosts.length} 篇</dd>
+          </div>
+          <div>
+            <dt>作品</dt>
+            <dd>{projects.length} 个</dd>
+          </div>
+        </dl>
+        <div class="social-row">
+          {socials.map((item) => (
+            <a
+              class="social-link"
+              href={item.href}
+              rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              target={item.href.startsWith('http') ? '_blank' : undefined}
+            >
+              <Icon name={item.icon} size={13} />
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </aside>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>精选作品</h2>
+        <a class="section-note" href="/works/">全部作品 →</a>
+      </div>
+      <div class="project-grid">
+        {featured.map((project, index) => (
+          <ProjectCard project={project} index={String(index + 1).padStart(2, '0')} />
+        ))}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>最近写的</h2>
+        <a class="section-note" href="/blog/">全部文章 →</a>
+      </div>
+      {posts.length > 0 ? (
+        <ul class="post-list">
+          {posts.map((post) => (
+            <PostRow post={post} />
+          ))}
+        </ul>
+      ) : (
+        <p class="empty-state">还没有文章，去 src/content/posts 里新建一篇吧。</p>
+      )}
+    </section>
+  </div>
+</BaseLayout>

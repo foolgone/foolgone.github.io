@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostRow from '../../components/PostRow.astro';
+import { getPosts } from '../../lib/posts';
+
+const posts = await getPosts();
+
+const groups = new Map<string, typeof posts>();
+for (const post of posts) {
+  const year = String(post.data.pubDate.getFullYear());
+  if (!groups.has(year)) groups.set(year, []);
+  groups.get(year)!.push(post);
+}
+---
+
+<BaseLayout title="文章" description="关于前端工程、交互设计与长期主义的笔记。">
+  <div class="container">
+    <header class="page-head">
+      <p class="eyebrow">Writing</p>
+      <h1>文章</h1>
+      <p>写代码时遇到的问题、做设计时的判断，以及一些读完书之后的整理。</p>
+    </header>
+
+    {posts.length === 0 ? (
+      <p class="empty-state">还没有文章。在 src/content/posts 里新建一个 .md 文件即可。</p>
+    ) : (
+      [...groups.entries()].map(([year, items]) => (
+        <section class="section">
+          <div class="section-head">
+            <h2>{year}</h2>
+            <span class="section-note">{items.length} 篇</span>
+          </div>
+          <ul class="post-list">
+            {items.map((post) => (
+              <PostRow post={post} />
+            ))}
+          </ul>
+        </section>
+      ))
+    )}
+
+    <div class="section-head" style="margin-top: 3rem;">
+      <h2>按标签浏览</h2>
+      <a class="section-note" href="/tags/">全部标签 →</a>
+    </div>
+  </div>
+</BaseLayout>

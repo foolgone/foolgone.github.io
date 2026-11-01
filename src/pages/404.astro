@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="页面不存在" description="这个页面走丢了。" noindex>
+  <div class="container">
+    <div class="not-found">
+      <p class="not-found__code">404</p>
+      <h1 style="font-family: var(--font-display); font-size: 1.5rem;">这个页面走丢了</h1>
+      <p style="color: var(--text-muted); max-width: 34ch;">
+        可能是链接过期了，或者文章还没写。你可以回到首页，或者去文章列表翻翻。
+      </p>
+      <div class="hero__actions" style="justify-content: center; margin-top: 0.5rem;">
+        <a class="btn btn--primary" href="/">回到首页</a>
+        <a class="btn" href="/blog/">看看文章</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

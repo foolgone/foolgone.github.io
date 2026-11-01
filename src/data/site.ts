@@ -16,8 +16,8 @@ export interface Project {
   role: string;
   /** 技术栈或能力标签 */
   stack: string[];
-  /** 项目链接，可以是外部地址，也可以是站内路径（如 /blog/xxx/） */
-  href?: string;
+  /** 在线演示地址 */
+  demo?: string;
   /** 源码地址 */
   repo?: string;
   /** 是否在首页「精选作品」里展示 */
@@ -61,43 +61,52 @@ export const socials: Social[] = [
 
 export const projects: Project[] = [
   {
-    title: '设计系统组件库',
+    title: 'agent-runtime',
     summary:
-      '为 12 条业务线统一交互与视觉语言，把重复实现的表单、表格、弹层收敛成 40+ 个可组合组件，配套文档站与视觉回归测试。',
-    year: '2025',
-    role: '设计与实现',
-    stack: ['TypeScript', 'React', 'Design Tokens', 'Storybook'],
-    href: 'https://github.com/yourname',
-    featured: true,
-  },
-  {
-    title: '实时协作白板',
-    summary:
-      '支持多人光标、无限画布与离线合并的协作白板，用 CRDT 解决冲突，首屏交互时间控制在 1.2 秒以内。',
-    year: '2024',
-    role: '前端负责人',
-    stack: ['Canvas', 'WebSocket', 'CRDT', '性能优化'],
-    href: 'https://github.com/yourname',
-    featured: true,
-  },
-  {
-    title: '数据看板可视化',
-    summary:
-      '把七张分散的运营报表整合成一块可下钻的看板，支持自定义指标与导出，日均使用人数从 30 提升到 400+。',
-    year: '2023',
-    role: '全栈开发',
-    stack: ['Vue', 'D3', 'Node.js', 'ClickHouse'],
-    href: 'https://github.com/yourname',
-    featured: true,
-  },
-  {
-    title: '写作与发布工具',
-    summary:
-      '面向技术写作者的 Markdown 编辑器，支持图片自动压缩、代码高亮主题与一键发布到多个平台。',
-    year: '2023',
+      '可恢复、幂等的 Agent 任务运行时。会话状态由 append-only 事件日志重放得出，进程崩溃后接着跑；工具调用先记账后执行，重试不会产生两份副作用。',
+    year: '2026',
     role: '独立开发',
-    stack: ['Electron', 'Markdown', 'Sharp'],
-    repo: 'https://github.com/yourname',
+    stack: ['Python', 'FastAPI', '事件溯源', 'LLM 工具调用'],
+    demo: 'https://agent-runtime-swart.vercel.app',
+    repo: 'https://github.com/foolgone/agent-runtime',
+    featured: true,
+  },
+  {
+    title: 'AI Insight Hub',
+    summary:
+      'AI 客服数据分析平台：用多个 Agent 自动清洗、评估和分析客服对话，覆盖导入、质检、统计与报告导出全链路。后端 42 个端点、479 条用例，前端 323 条用例。',
+    year: '2026',
+    role: '全栈开发',
+    stack: ['FastAPI', 'PostgreSQL', 'pgvector', 'Celery', 'React 18'],
+    repo: 'https://github.com/foolgone/ai-insight-hub',
+    featured: true,
+  },
+  {
+    title: '客服质检工作台',
+    summary:
+      '导入对话后人工标注评分，AI 给出辅助建议，配合三栏工作台、键盘快捷键与自动保存，单条审核控制在一分钟内，支持统计看板与多格式报告导出。',
+    year: '2026',
+    role: '独立开发',
+    stack: ['React 18', 'Vite', 'TailwindCSS', 'Recharts', 'Vitest'],
+    demo: 'https://customer-service-review.vercel.app',
+    repo: 'https://github.com/foolgone/customer-service-review',
+    featured: true,
+  },
+  {
+    title: 'DSH AI 接待工作台',
+    summary:
+      '基于 DSH 的客服接待助手：模型根据客户咨询与上下文自主选择知识检索、Skill 与已授权工具，知识库提供事实、Skill 提供处理方法，不绑定为固定流水线。',
+    year: '2026',
+    role: '前端与平台开发',
+    stack: ['TypeScript', 'pnpm workspace', 'Agent 编排', '飞书 OAuth'],
+  },
+  {
+    title: '多 Agent 旅游规划',
+    summary:
+      '六个 Agent 分工处理偏好、目的地、航班、酒店、活动与预算，由 orchestrator 串成可并行执行的流水线，预算超限时回到上游重新规划。',
+    year: '2025',
+    role: '独立开发',
+    stack: ['Python', 'FastAPI', 'Streamlit', '多 Agent 编排'],
   },
 ];
 

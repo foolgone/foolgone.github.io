@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { project, index } = Astro.props;
-const isExternal = project.href?.startsWith('http');
+const demo = project.demo;
 ---
 
 <article class="project-card">
@@ -18,12 +18,8 @@ const isExternal = project.href?.startsWith('http');
   </div>
 
   <h3>
-    {project.href ? (
-      <a
-        href={project.href}
-        target={isExternal ? '_blank' : undefined}
-        rel={isExternal ? 'noopener noreferrer' : undefined}
-      >
+    {demo ? (
+      <a href={demo} target="_blank" rel="noopener noreferrer">
         {project.title}
         <Icon name="arrowUpRight" size={14} />
       </a>

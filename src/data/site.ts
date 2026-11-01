@@ -78,6 +78,7 @@ export const projects: Project[] = [
     year: '2026',
     role: '全栈开发',
     stack: ['FastAPI', 'PostgreSQL', 'pgvector', 'Celery', 'React 18'],
+    demo: 'https://bjwplus.dpdns.org:8443',
     repo: 'https://github.com/foolgone/ai-insight-hub',
     featured: true,
   },

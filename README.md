@@ -1,6 +1,10 @@
 # 个人博客 + 作品集
 
-基于 [Astro](https://astro.build) 的纯静态站点：文章用 Markdown 写，构建产物是纯 HTML/CSS/JS，零后端依赖，部署在 Vercel。
+基于 [Astro](https://astro.build) 的纯静态站点：文章用 Markdown 写，构建产物是纯 HTML/CSS/JS，零后端依赖，部署在 GitHub Pages。
+
+> 线上地址：https://foolgone.github.io
+>
+> 仓库名必须是 `<用户名>.github.io`，站点才会挂在根路径，页面里的 `/blog/` 这类绝对链接才不会失效。
 
 ## 功能
 
@@ -97,22 +101,36 @@ site: 'https://your-domain.com',
 
 全部在设计令牌里，改 `src/styles/global.css` 顶部 `:root` 与 `[data-theme='dark']` 两组变量即可，不用动组件。
 
-## 部署到 Vercel
+## 部署
 
-1. 把代码推到 GitHub（见下）
-2. 打开 [vercel.com/new](https://vercel.com/new)，选择这个仓库
-3. Framework Preset 会自动识别为 **Astro**，Build Command `npm run build`，Output Directory `dist`，直接 Deploy
-4. 之后每次 `git push` 都会自动重新部署
+### GitHub Pages（当前方案）
 
-首次推送 GitHub：
+仓库里已经有 `.github/workflows/deploy.yml`，推到 `main` 就会自动构建并发布：
+
+1. 仓库 **Settings → Pages → Build and deployment → Source** 选 **GitHub Actions**
+2. 推一次代码，等 Actions 跑完
+3. 访问 `https://<用户名>.github.io`
+
+构建产物是纯静态文件，`site` 配置在 `astro.config.mjs` 里，改了域名记得同步。
+
+### 可选：Vercel
+
+站点不依赖任何平台特性，想多一个入口的话：
+
+1. 打开 [vercel.com/new](https://vercel.com/new)，导入本仓库
+2. 框架自动识别为 **Astro**，直接 Deploy
+
+> 注意：`*.vercel.app` 域名在中国大陆会被 DNS 污染，打不开。Vercel 的服务器本身可以连通，所以绑定**自己的域名**后可以正常访问。国内访问优先用 GitHub Pages 的地址。
+
+## 首次推送 GitHub
 
 ```bash
 git init
 git add .
 git commit -m "init: astro blog"
-gh repo create my-blog --public --source=. --push
-# 或者手动在 GitHub 新建仓库后：
-# git remote add origin https://github.com/<你的用户名>/<仓库名>.git
+gh repo create foolgone.github.io --public --source=. --push
+# 或者手动新建仓库后：
+# git remote add origin https://github.com/<用户名>/<用户名>.github.io.git
 # git branch -M main
 # git push -u origin main
 ```

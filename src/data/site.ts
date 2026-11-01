@@ -33,30 +33,29 @@ export interface Social {
 
 export const site = {
   name: '江晚',
-  // TODO: 你的职业 / 身份
-  role: '前端工程师',
+  // TODO: 职业 / 身份（确认后改这里，会出现在浏览器标题和 RSS）
+  role: 'AI 应用工程',
   // TODO: 一句话定位，出现在首页大标题下方
-  tagline: '写界面，也写界面背后的思考。',
+  tagline: '做 AI 应用，也记录过程中踩过的坑。',
   // TODO: 首页自我介绍，两到三句话
   intro:
-    '我做前端工程与交互设计，关注可读性、动效节奏和长期可维护的代码。这里放我的作品，和偶尔写下的长文。',
-  // TODO: 当前状态，留空则不显示
-  availability: '开放远程合作',
-  // TODO: 站点描述，会用于 SEO 与 RSS
-  description: '个人作品集与技术博客，记录前端工程、交互设计与长期主义的实践。',
-  // TODO: 联系邮箱
-  email: 'hello@example.com',
-  // TODO: 所在城市，留空则不显示
-  location: '中国 · 远程',
-  // TODO: 建站年份，用于页脚版权
-  since: 2024,
+    '我做 AI 应用与工程实现，关注 Agent 运行时、检索质量和评测方法。这里放我做过的项目，和偶尔写下的长文。',
+  // 当前状态，留空则不显示
+  availability: '',
+  // 站点描述，会用于 SEO 与 RSS
+  description: '个人作品集与技术笔记，记录 Agent、RAG 检索与 LLM 应用评测的实践。',
+  // TODO: 联系邮箱，填了才会显示
+  email: '',
+  // 所在城市，留空则不显示
+  location: '',
+  // 建站年份，用于页脚版权
+  since: 2026,
 };
 
 export const socials: Social[] = [
-  { label: 'GitHub', href: 'https://github.com/yourname', icon: 'github' },
-  { label: 'Email', href: 'mailto:hello@example.com', icon: 'mail' },
-  { label: 'X', href: 'https://x.com/yourname', icon: 'x' },
+  { label: 'GitHub', href: 'https://github.com/foolgone', icon: 'github' },
   { label: 'RSS', href: '/rss.xml', icon: 'rss' },
+  // TODO: 有邮箱、X、掘金等再加，格式同上
 ];
 
 export const projects: Project[] = [
@@ -111,26 +110,35 @@ export const projects: Project[] = [
   },
 ];
 
-export const skills = [
-  {
-    title: '前端工程',
-    items: ['TypeScript', 'React / Vue', 'Astro', '构建与性能优化'],
-  },
-  {
-    title: '设计与交互',
-    items: ['设计令牌', '排版与栅格', '动效节奏', '可访问性'],
-  },
-  {
-    title: '工程化',
-    items: ['组件库建设', 'CI / CD', '自动化测试', '文档体系'],
-  },
-];
+export interface SkillGroup {
+  title: string;
+  items: string[];
+}
 
-export const timeline = [
-  { year: '2024 — 至今', title: '高级前端工程师', detail: '负责设计系统与核心业务前端架构。' },
-  { year: '2021 — 2024', title: '前端工程师', detail: '从 0 到 1 搭建数据产品前端，主导可视化模块。' },
-  { year: '2019 — 2021', title: '初级前端工程师', detail: '企业后台系统开发，沉淀表单与表格方案。' },
-];
+export interface TimelineItem {
+  year: string;
+  title: string;
+  detail: string;
+}
+
+/**
+ * 关于页的技能分组。留空则整块不显示。
+ * 想加上就照下面注释里的格式填。
+ *
+ * export const skills: SkillGroup[] = [
+ *   { title: '语言与框架', items: ['Python', 'TypeScript', 'FastAPI', 'React'] },
+ * ];
+ */
+export const skills: SkillGroup[] = [];
+
+/**
+ * 关于页的经历时间线。留空则整块不显示。
+ *
+ * export const timeline: TimelineItem[] = [
+ *   { year: '2024 — 至今', title: '公司 / 职位', detail: '一句话职责' },
+ * ];
+ */
+export const timeline: TimelineItem[] = [];
 
 export const nav = [
   { label: '首页', href: '/' },

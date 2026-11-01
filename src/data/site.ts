@@ -33,8 +33,6 @@ export interface Social {
 
 export const site = {
   name: '江晚',
-  // TODO: 职业 / 身份（确认后改这里，会出现在浏览器标题和 RSS）
-  role: 'AI 应用工程',
   // TODO: 一句话定位，出现在首页大标题下方
   tagline: '做 AI 应用，也记录过程中踩过的坑。',
   // TODO: 首页自我介绍，两到三句话

@@ -6,7 +6,7 @@ export async function GET(context) {
   const posts = await getPosts();
 
   const feed = await rss({
-    title: `${site.name} · ${site.role}`,
+    title: site.name,
     description: site.description,
     site: context.site,
     items: posts.map((post) => ({

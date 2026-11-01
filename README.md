@@ -63,7 +63,7 @@ public/favicon.svg
 
 编辑 `src/data/site.ts`，所有带 `TODO` 的字段替换掉即可：
 
-- `site.name` 名字、`site.role` 身份、`site.tagline` 一句话定位
+- `site.name` 名字、`site.tagline` 一句话定位、`site.intro` 自我介绍
 - `site.intro` 首页自我介绍、`site.email` 邮箱、`site.location` 城市
 - `socials` 社交链接（图标可选 `github` / `mail` / `x` / `rss` / `link`）
 - `projects` 作品列表，`featured: true` 的会出现在首页

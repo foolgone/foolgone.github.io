@@ -58,17 +58,6 @@ export const socials: Social[] = [
 
 export const projects: Project[] = [
   {
-    title: 'agent-runtime',
-    summary:
-      '可恢复、幂等的 Agent 任务运行时。会话状态由 append-only 事件日志重放得出，进程崩溃后接着跑；工具调用先记账后执行，重试不会产生两份副作用。',
-    year: '2026',
-    role: '独立开发',
-    stack: ['Python', 'FastAPI', '事件溯源', 'LLM 工具调用'],
-    demo: 'https://agent-runtime-swart.vercel.app',
-    repo: 'https://github.com/foolgone/agent-runtime',
-    featured: true,
-  },
-  {
     title: 'AI Insight Hub',
     summary:
       'AI 客服数据分析平台：用多个 Agent 自动清洗、评估和分析客服对话，覆盖导入、质检、统计与报告导出全链路。后端 42 个端点、479 条用例，前端 323 条用例。',
@@ -88,6 +77,16 @@ export const projects: Project[] = [
     stack: ['React 18', 'Vite', 'TailwindCSS', 'Recharts', 'Vitest'],
     demo: 'https://customer-service-review.vercel.app',
     repo: 'https://github.com/foolgone/customer-service-review',
+    featured: true,
+  },
+  {
+    title: 'agent-runtime',
+    summary:
+      '可恢复、幂等的 Agent 任务运行时。会话状态由 append-only 事件日志重放得出，进程崩溃后接着跑；工具调用先记账后执行，重试不会产生两份副作用。',
+    year: '2026',
+    role: '独立开发',
+    stack: ['Python', 'FastAPI', '事件溯源', 'LLM 工具调用'],
+    repo: 'https://github.com/foolgone/agent-runtime',
     featured: true,
   },
   {

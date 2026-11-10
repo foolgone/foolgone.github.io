@@ -716,13 +716,63 @@ a.tag:hover {
   border-color: var(--accent-ring);
 }
 
+.project-card__tail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: auto;
+}
+
 .project-card__foot {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  margin-top: auto;
-  padding-top: var(--space-2);
+}
+
+.project-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.project-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.34rem 0.75rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 500;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.project-card__cta:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+[data-theme='dark'] .project-card__cta {
+  color: #17130f;
+}
+
+.project-card__note {
+  margin: 0;
+  padding: 0.5rem 0.65rem;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  white-space: pre-line;
+  overflow-wrap: break-word;
 }
 
 .project-card__role {

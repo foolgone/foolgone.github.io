@@ -20,6 +20,8 @@ export interface Project {
   cover?: string;
   /** 在线演示地址 */
   demo?: string;
+  /** 演示补充说明，例如体验账号 */
+  demoNote?: string;
   /** 源码地址 */
   repo?: string;
   /** 是否在首页「精选作品」里展示 */
@@ -68,6 +70,7 @@ export const projects: Project[] = [
     stack: ['FastAPI', 'PostgreSQL', 'pgvector', 'Celery', 'React 18'],
     cover: 'insight-hub',
     demo: 'https://bjwplus.dpdns.org:8443',
+    demoNote: '体验账号 demo@example.com\n密码 demo123',
     repo: 'https://github.com/foolgone/ai-insight-hub',
     featured: true,
   },

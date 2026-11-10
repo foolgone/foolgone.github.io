@@ -59,19 +59,36 @@ const demo = project.demo;
       ))}
     </ul>
 
-    <div class="project-card__foot">
-      <span class="project-card__role">{project.role}</span>
-      {project.repo && (
-        <a
-          class="project-card__link"
-          href={project.repo}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          源码
-          <Icon name="arrowUpRight" size={13} />
-        </a>
-      )}
+    <div class="project-card__tail">
+      {project.demoNote && <p class="project-card__note">{project.demoNote}</p>}
+
+      <div class="project-card__foot">
+        <span class="project-card__role">{project.role}</span>
+        <div class="project-card__actions">
+          {demo && (
+            <a
+              class="project-card__cta"
+              href={demo}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              在线体验
+              <Icon name="arrowUpRight" size={13} />
+            </a>
+          )}
+          {project.repo && (
+            <a
+              class="project-card__link"
+              href={project.repo}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              源码
+              <Icon name="arrowUpRight" size={13} />
+            </a>
+          )}
+        </div>
+      </div>
     </div>
   </div>
 </article>

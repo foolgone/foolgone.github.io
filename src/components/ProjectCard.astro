@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import type { Project } from '../data/site';
+import { covers } from '../lib/covers';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -8,46 +10,68 @@ interface Props {
 }
 
 const { project, index } = Astro.props;
+const cover = project.cover ? covers[project.cover] : undefined;
 const demo = project.demo;
 ---
 
 <article class="project-card">
-  <div class="project-card__top">
-    <span class="project-card__index">{index ?? project.year}</span>
-    <span class="project-card__year">{project.year}</span>
+  <div class="project-card__media">
+    {cover ? (
+      <Image
+        src={cover}
+        alt={`${project.title} 界面截图`}
+        widths={[400, 700, 1000]}
+        sizes="(max-width: 640px) 88vw, (max-width: 1024px) 44vw, 330px"
+        format="webp"
+        quality={78}
+        loading="lazy"
+        class="project-card__shot"
+      />
+    ) : (
+      <span class="project-card__placeholder" aria-hidden="true">
+        <span class="project-card__monogram">{project.title.slice(0, 1)}</span>
+      </span>
+    )}
   </div>
 
-  <h3>
-    {demo ? (
-      <a href={demo} target="_blank" rel="noopener noreferrer">
-        {project.title}
-        <Icon name="arrowUpRight" size={14} />
-      </a>
-    ) : (
-      project.title
-    )}
-  </h3>
+  <div class="project-card__body">
+    <div class="project-card__top">
+      <span class="project-card__index">{index ?? project.year}</span>
+      <span class="project-card__year">{project.year}</span>
+    </div>
 
-  <p>{project.summary}</p>
+    <h3>
+      {demo ? (
+        <a href={demo} target="_blank" rel="noopener noreferrer">
+          {project.title}
+          <Icon name="arrowUpRight" size={14} />
+        </a>
+      ) : (
+        project.title
+      )}
+    </h3>
 
-  <ul class="tag-list">
-    {project.stack.map((item) => (
-      <li class="tag">{item}</li>
-    ))}
-  </ul>
+    <p>{project.summary}</p>
 
-  <div class="project-card__foot">
-    <span class="project-card__role">{project.role}</span>
-    {project.repo && (
-      <a
-        class="project-card__link"
-        href={project.repo}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        源码
-        <Icon name="arrowUpRight" size={13} />
-      </a>
-    )}
+    <ul class="tag-list">
+      {project.stack.map((item) => (
+        <li class="tag">{item}</li>
+      ))}
+    </ul>
+
+    <div class="project-card__foot">
+      <span class="project-card__role">{project.role}</span>
+      {project.repo && (
+        <a
+          class="project-card__link"
+          href={project.repo}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          源码
+          <Icon name="arrowUpRight" size={13} />
+        </a>
+      )}
+    </div>
   </div>
 </article>

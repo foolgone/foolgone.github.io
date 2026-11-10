@@ -67,6 +67,7 @@ public/favicon.svg
 - `site.intro` 首页自我介绍、`site.email` 邮箱、`site.location` 城市
 - `socials` 社交链接（图标可选 `github` / `mail` / `x` / `rss` / `link`）
 - `projects` 作品列表，`featured: true` 的会出现在首页
+- 作品封面：把截图放进 `src/assets/projects/`，在 `src/lib/covers.ts` 注册 key，再在 `site.ts` 里写 `cover: 'key'`；没有封面的会自动显示首字母占位块
 - `skills`、`timeline` 关于页的技能与经历
 
 ### 2. 写一篇新文章

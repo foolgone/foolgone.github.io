@@ -16,6 +16,8 @@ export interface Project {
   role: string;
   /** 技术栈或能力标签 */
   stack: string[];
+  /** 封面图 key，对应 src/lib/covers.ts 里的键 */
+  cover?: string;
   /** 在线演示地址 */
   demo?: string;
   /** 源码地址 */
@@ -64,6 +66,7 @@ export const projects: Project[] = [
     year: '2026',
     role: '全栈开发',
     stack: ['FastAPI', 'PostgreSQL', 'pgvector', 'Celery', 'React 18'],
+    cover: 'insight-hub',
     demo: 'https://bjwplus.dpdns.org:8443',
     repo: 'https://github.com/foolgone/ai-insight-hub',
     featured: true,
@@ -75,6 +78,7 @@ export const projects: Project[] = [
     year: '2026',
     role: '独立开发',
     stack: ['React 18', 'Vite', 'TailwindCSS', 'Recharts', 'Vitest'],
+    cover: 'customer-review',
     demo: 'https://customer-service-review.vercel.app',
     repo: 'https://github.com/foolgone/customer-service-review',
     featured: true,
@@ -86,6 +90,7 @@ export const projects: Project[] = [
     year: '2026',
     role: '独立开发',
     stack: ['Python', 'FastAPI', '事件溯源', 'LLM 工具调用'],
+    cover: 'agent-runtime',
     repo: 'https://github.com/foolgone/agent-runtime',
     featured: true,
   },
